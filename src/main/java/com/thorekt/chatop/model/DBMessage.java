@@ -1,4 +1,4 @@
-package com.thorekt.chatop.models;
+package com.thorekt.chatop.model;
 
 import java.sql.Timestamp;
 
@@ -12,20 +12,17 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "rentals")
-public class Rental {
+@Table(name = "messages")
+public class DBMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private double surface;
-    private double price;
-    private String picture;
-    private String description;
-    private int ownerId;
-    @Column(name = "created_at", nullable = false, updatable = false)
+    private int rentalId;
+    private int userId;
+    private String message;
+    @Column(name = "created_at")
     private Timestamp createdAt;
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
 }

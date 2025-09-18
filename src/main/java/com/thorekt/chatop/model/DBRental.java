@@ -1,5 +1,6 @@
-package com.thorekt.chatop.models;
+package com.thorekt.chatop.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -12,17 +13,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "messages")
-public class Message {
+@Table(name = "rentals")
+public class DBRental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int rentalId;
-    private int userId;
-    private String message;
-    @Column(name = "created_at", nullable = false, updatable = false)
+    private String name;
+    private BigDecimal surface;
+    private BigDecimal price;
+    private String picture;
+    private String description;
+    private int ownerId;
+    @Column(name = "created_at")
     private Timestamp createdAt;
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
 }

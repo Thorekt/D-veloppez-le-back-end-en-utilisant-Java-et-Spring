@@ -1,5 +1,5 @@
 
-package com.thorekt.chatop.models;
+package com.thorekt.chatop.model;
 
 import java.sql.Timestamp;
 
@@ -19,16 +19,16 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class DBUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private String email;
     private String name;
     private String password;
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at")
     private Timestamp createdAt;
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
     /**
@@ -39,7 +39,7 @@ public class User {
      * @param name     The name of the user.
      * @param password The password of the user.
      */
-    public User(String email, String name, String password) {
+    public DBUser(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -52,7 +52,7 @@ public class User {
      * @param email    The email of the user.
      * @param password The password of the user.
      */
-    public User(String email, String password) {
+    public DBUser(String email, String password) {
         this.email = email;
         this.password = password;
     }
