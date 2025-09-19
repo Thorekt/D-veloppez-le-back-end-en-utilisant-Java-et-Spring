@@ -113,6 +113,12 @@ public class SpringSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Authentication provider bean using DaoAuthenticationProvider with custom
+     * 
+     * @param encoder
+     * @return
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(
             PasswordEncoder encoder) {
@@ -122,11 +128,24 @@ public class SpringSecurityConfig {
         return provider;
     }
 
+    /**
+     * Authentication manager bean.
+     * 
+     * @param config
+     * @return
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * JWT encoder bean using RSA keys.
+     * 
+     * @return
+     * @throws Exception
+     */
     @Bean
     public JwtEncoder jwtEncoder() throws Exception {
         RSAPrivateKey privateKey = RsaKeyConverters.pkcs8().convert(privateKeyResource.getInputStream());
@@ -136,6 +155,12 @@ public class SpringSecurityConfig {
         return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(rsaKey)));
     }
 
+    /**
+     * JWT decoder bean using RSA public key.
+     * 
+     * @return
+     * @throws Exception
+     */
     @Bean
     public JwtDecoder jwtDecoder() throws Exception {
         RSAPublicKey publicKey = RsaKeyConverters.x509().convert(publicKeyResource.getInputStream());
