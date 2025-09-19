@@ -3,6 +3,9 @@ package com.thorekt.chatop.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,8 +27,12 @@ public class DBRental {
     private String picture;
     private String description;
     private int ownerId;
+
+    @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
+
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 

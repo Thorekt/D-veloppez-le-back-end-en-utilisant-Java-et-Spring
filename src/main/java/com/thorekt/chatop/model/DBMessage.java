@@ -2,6 +2,9 @@ package com.thorekt.chatop.model;
 
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +23,12 @@ public class DBMessage {
     private int rentalId;
     private int userId;
     private String message;
+
+    @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
+
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
