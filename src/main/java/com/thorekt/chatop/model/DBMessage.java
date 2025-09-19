@@ -25,4 +25,6 @@ public class DBMessage {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    public DBMessage() {
+    }
 }

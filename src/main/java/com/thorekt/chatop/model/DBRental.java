@@ -29,4 +29,7 @@ public class DBRental {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    public DBRental() {
+    }
+
 }
