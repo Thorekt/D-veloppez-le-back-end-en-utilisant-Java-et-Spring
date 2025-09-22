@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thorekt.chatop.configuration.OpenApiConfig;
 import com.thorekt.chatop.dto.request.MessageRequest;
 import com.thorekt.chatop.dto.response.BaseResponse;
 import com.thorekt.chatop.service.MessageService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 /**
  * Controller for message management
@@ -27,6 +31,8 @@ public class MessageController {
      * @param request
      * @return BaseResponse indicating success or failure
      */
+    @Operation(summary = "Post a new message", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @PostMapping("/messages")
     public ResponseEntity<BaseResponse> postMessage(@RequestBody MessageRequest request) {
 

@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.thorekt.chatop.configuration.OpenApiConfig;
 import com.thorekt.chatop.dto.response.BaseResponse;
 import com.thorekt.chatop.dto.response.RentalResponse;
 import com.thorekt.chatop.dto.response.RentalsResponse;
 import com.thorekt.chatop.model.DBRental;
 import com.thorekt.chatop.service.RentalService;
 import com.thorekt.chatop.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 /**
  * Controller for rental management
@@ -48,6 +51,8 @@ public class RentalController {
      * @param picture
      * @return BaseResponse indicating success or failure
      */
+    @Operation(summary = "Create a new rental", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @PostMapping(value = "/rentals", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BaseResponse> createRental(
             Authentication authentication,
@@ -78,6 +83,8 @@ public class RentalController {
      * @param picture
      * @return BaseResponse indicating success or failure
      */
+    @Operation(summary = "Update rental by id", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @PutMapping("/rentals/{id}")
     public ResponseEntity<BaseResponse> updateRental(
             @PathVariable int id,
@@ -101,6 +108,8 @@ public class RentalController {
      * @param id
      * @return RentalResponse or 400 if not found
      */
+    @Operation(summary = "Get rental by id", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @GetMapping("/rentals/{id}")
     public ResponseEntity<RentalResponse> getRentalById(
             @PathVariable int id) {
@@ -120,6 +129,8 @@ public class RentalController {
      * 
      * @return RentalsResponse with list of rentals
      */
+    @Operation(summary = "Get all rentals", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @GetMapping("/rentals")
     public ResponseEntity<RentalsResponse> getAllRentals() {
 

@@ -6,16 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thorekt.chatop.configuration.OpenApiConfig;
 import com.thorekt.chatop.dto.request.LoginRequest;
 import com.thorekt.chatop.dto.request.RegisterRequest;
 import com.thorekt.chatop.dto.response.AuthResponse;
 import com.thorekt.chatop.dto.response.UserDataResponse;
 import com.thorekt.chatop.model.DBUser;
-import com.thorekt.chatop.repository.DBUserRepository;
 import com.thorekt.chatop.service.AuthenticationService;
 import com.thorekt.chatop.service.RegistrationService;
 import com.thorekt.chatop.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +49,7 @@ public class AuthController {
      * @param request
      * @return AuthResponse with JWT token if successful
      */
+    @Operation(summary = "Login a user")
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
 
@@ -69,6 +72,7 @@ public class AuthController {
      * @param request
      * @return AuthResponse with JWT token if successful
      */
+    @Operation(summary = "Register a new user")
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {
         try {
@@ -89,6 +93,8 @@ public class AuthController {
      * @param authentication
      * @return UserDataResponse of the current user
      */
+    @Operation(summary = "Get current user data", security = {
+            @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME) })
     @GetMapping("/me")
     public ResponseEntity<UserDataResponse> me(Authentication authentication) {
         DBUser user = userService.getUserByEmail(authentication.getName());
