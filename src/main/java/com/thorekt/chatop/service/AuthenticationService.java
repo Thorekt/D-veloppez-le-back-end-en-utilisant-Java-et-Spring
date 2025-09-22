@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+/**
+ * Service for authentication management
+ * 
+ * @author thorekt
+ */
 @Service
 public class AuthenticationService {
 
@@ -20,7 +25,7 @@ public class AuthenticationService {
      * 
      * @param email
      * @param password
-     * @return
+     * @return JWT token if authentication is successful
      * @throws Exception
      */
     public String authenticate(String email, String password) throws Exception {

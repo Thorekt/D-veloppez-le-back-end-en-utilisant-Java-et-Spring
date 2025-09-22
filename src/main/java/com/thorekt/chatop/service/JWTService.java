@@ -12,6 +12,11 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for JWT management
+ * 
+ * @author thorekt
+ */
 @Service
 public class JWTService {
 
@@ -24,6 +29,12 @@ public class JWTService {
     @Value("${security.jwt.expires-in}")
     private Long expiresIn;
 
+    /**
+     * Generate a JWT token for the given authentication
+     * 
+     * @param authentication
+     * @return JWT token
+     */
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
 

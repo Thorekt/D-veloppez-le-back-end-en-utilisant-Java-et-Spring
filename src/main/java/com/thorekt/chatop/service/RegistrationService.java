@@ -10,6 +10,11 @@ import com.thorekt.chatop.repository.DBUserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Service for registration management
+ * 
+ * @author thorekt
+ */
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
@@ -20,6 +25,14 @@ public class RegistrationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Register a new user
+     * 
+     * @param email
+     * @param rawPassword
+     * @param name
+     * @throws Exception
+     */
     @Transactional
     public void registerUser(String email, String rawPassword, String name) throws Exception {
         if (dbUserRepository.findByEmail(email) != null) {

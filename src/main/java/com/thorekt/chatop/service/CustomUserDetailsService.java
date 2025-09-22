@@ -17,6 +17,8 @@ import com.thorekt.chatop.repository.DBUserRepository;
  * Custom implementation of UserDetailsService to load user details from the
  * database.
  * This service is used by Spring Security for authentication and authorization.
+ * 
+ * @author thorekt
  */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
