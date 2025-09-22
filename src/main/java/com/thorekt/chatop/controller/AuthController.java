@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Controller for authentication and registration
+ * 
+ * @author thorekt
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -36,6 +40,12 @@ public class AuthController {
     @Autowired
     private DBUserRepository dbUserRepository;
 
+    /**
+     * Login a user
+     * 
+     * @param request
+     * @return AuthResponse with JWT token if successful
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
 
@@ -52,33 +62,41 @@ public class AuthController {
         }
     }
 
+    /**
+     * Register a new user
+     * 
+     * @param request
+     * @return AuthResponse with JWT token if successful
+     */
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {
         try {
             registrationService.registerUser(request.email(), request.password(),
                     request.name());
-            String token = authenticationService.authenticate(
-                    request.email(),
-                    request.password());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponse(token));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthResponse(null, e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse(null, e.getMessage()));
         }
+
+        return this.login(new LoginRequest(request.email(), request.password()));
     }
 
+    /**
+     * Get current user data
+     * 
+     * @param authentication
+     * @return UserDataResponse of the current user
+     */
     @GetMapping("/me")
-    public UserDataResponse me(Authentication authentication) {
+    public ResponseEntity<UserDataResponse> me(Authentication authentication) {
         DBUser user = dbUserRepository.findByEmail(authentication.getName());
-        System.out.println(user);
-        return new UserDataResponse(
+        return ResponseEntity.ok(new UserDataResponse(
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
                 user.getCreatedAt(),
-                user.getUpdatedAt());
+                user.getUpdatedAt()));
     }
 
 }
