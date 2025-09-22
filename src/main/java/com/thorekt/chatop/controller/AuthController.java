@@ -14,6 +14,7 @@ import com.thorekt.chatop.model.DBUser;
 import com.thorekt.chatop.repository.DBUserRepository;
 import com.thorekt.chatop.service.AuthenticationService;
 import com.thorekt.chatop.service.RegistrationService;
+import com.thorekt.chatop.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -38,7 +39,7 @@ public class AuthController {
     private RegistrationService registrationService;
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserService userService;
 
     /**
      * Login a user
@@ -90,7 +91,7 @@ public class AuthController {
      */
     @GetMapping("/me")
     public ResponseEntity<UserDataResponse> me(Authentication authentication) {
-        DBUser user = dbUserRepository.findByEmail(authentication.getName());
+        DBUser user = userService.getUserByEmail(authentication.getName());
         return ResponseEntity.ok(new UserDataResponse(
                 user.getId(),
                 user.getEmail(),
