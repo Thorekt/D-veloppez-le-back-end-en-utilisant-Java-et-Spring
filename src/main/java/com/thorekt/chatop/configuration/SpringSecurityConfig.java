@@ -36,6 +36,11 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
+/**
+ * Spring Security configuration class
+ * 
+ * @author thorekt
+ */
 @Configuration
 public class SpringSecurityConfig {
 
@@ -52,12 +57,12 @@ public class SpringSecurityConfig {
      * Security filter chain for handling /error endpoint to allow all requests.
      * 
      * @param http
-     * @return
+     * @return SecurityFilterChain
      * @throws Exception
      */
     @Bean
     @Order(0)
-    SecurityFilterChain errorChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain errorChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/error")
                 .authorizeHttpRequests(a -> a.anyRequest().permitAll())
@@ -69,7 +74,7 @@ public class SpringSecurityConfig {
      * requests.
      * 
      * @param http
-     * @return
+     * @return SecurityFilterChain
      * @throws Exception
      */
     @Bean
@@ -88,7 +93,7 @@ public class SpringSecurityConfig {
      * authentication via JWT tokens.
      * 
      * @param http
-     * @return
+     * @return SecurityFilterChain
      * @throws Exception
      */
     @Bean
@@ -106,7 +111,7 @@ public class SpringSecurityConfig {
     /**
      * Password encoder bean using BCrypt hashing algorithm.
      * 
-     * @return
+     * @return BCryptPasswordEncoder
      */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -117,7 +122,7 @@ public class SpringSecurityConfig {
      * Authentication provider bean using DaoAuthenticationProvider with custom
      * 
      * @param encoder
-     * @return
+     * @return AuthenticationProvider
      */
     @Bean
     public AuthenticationProvider authenticationProvider(
@@ -132,7 +137,7 @@ public class SpringSecurityConfig {
      * Authentication manager bean.
      * 
      * @param config
-     * @return
+     * @return AuthenticationManager
      * @throws Exception
      */
     @Bean
@@ -143,7 +148,7 @@ public class SpringSecurityConfig {
     /**
      * JWT encoder bean using RSA keys.
      * 
-     * @return
+     * @return JwtEncoder
      * @throws Exception
      */
     @Bean
@@ -158,7 +163,7 @@ public class SpringSecurityConfig {
     /**
      * JWT decoder bean using RSA public key.
      * 
-     * @return
+     * @return JwtDecoder
      * @throws Exception
      */
     @Bean
