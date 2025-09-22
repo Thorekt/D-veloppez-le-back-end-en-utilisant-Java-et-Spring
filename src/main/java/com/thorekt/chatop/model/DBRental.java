@@ -56,11 +56,13 @@ public class DBRental {
      * @param price
      * @param surface
      */
-    public DBRental(String name, String description, String picture, BigDecimal price, BigDecimal surface) {
+    public DBRental(String name, String description, String picture, BigDecimal price, BigDecimal surface,
+            int ownerId) {
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.price = price;
         this.surface = surface;
+        this.ownerId = ownerId;
     }
 }

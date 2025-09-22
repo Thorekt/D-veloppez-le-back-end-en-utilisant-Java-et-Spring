@@ -64,7 +64,7 @@ public class SpringSecurityConfig {
     @Order(0)
     public SecurityFilterChain errorChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/error")
+                .securityMatcher("/error", "/wp-content/**", "/uploads/**")
                 .authorizeHttpRequests(a -> a.anyRequest().permitAll())
                 .build();
     }

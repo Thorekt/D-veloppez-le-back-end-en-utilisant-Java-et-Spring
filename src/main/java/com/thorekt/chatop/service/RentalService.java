@@ -2,9 +2,17 @@ package com.thorekt.chatop.service;
 
 import java.math.BigDecimal;
 
+import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.thorekt.chatop.model.DBRental;
@@ -21,6 +29,18 @@ public class RentalService {
     @Autowired
     private DBRentalRepository rentalRepository;
 
+    @Value("${app.base-url}")
+    private String appBaseUrl;
+
+    @Value("${app.uploads.base-dir}")
+    private String baseDir;
+
+    @Value("${app.uploads.base-url}")
+    private String uploadBaseUrl;
+
+    @Value("${app.uploads.allowed-types}")
+    private String allowedTypes;
+
     /**
      * Create a new rental
      * 
@@ -29,6 +49,7 @@ public class RentalService {
      * @param price
      * @param surface
      * @param picture
+     * @param ownerId
      * @throws Exception
      */
     @Transactional
@@ -36,7 +57,8 @@ public class RentalService {
             String description,
             BigDecimal price,
             BigDecimal surface,
-            MultipartFile picture) throws Exception {
+            MultipartFile picture,
+            int ownerId) throws Exception {
 
         String picturePath = savePicture(picture);
 
@@ -45,7 +67,8 @@ public class RentalService {
                 description,
                 picturePath,
                 price,
-                surface);
+                surface,
+                ownerId);
 
         rentalRepository.save(rental);
     }
@@ -93,8 +116,48 @@ public class RentalService {
      * @throws Exception
      */
     private String savePicture(MultipartFile picture) throws Exception {
-        // Logic to save the picture and return its URL or path
-        return "path/to/saved/picture.jpg";
+        if (picture == null || picture.isEmpty()) {
+            throw new IllegalArgumentException("Picture cannot be empty");
+        }
+
+        if (!allowedTypes.contains(picture.getContentType())) {
+            throw new IllegalArgumentException("Invalid picture type");
+        }
+
+        String original = StringUtils.cleanPath(
+                Objects.requireNonNullElse(picture.getOriginalFilename(), "image"));
+        String baseName = StringUtils.stripFilenameExtension(original);
+        String extension = StringUtils.getFilenameExtension(original);
+
+        String safeName = StringUtils.hasText(baseName)
+                ? String.format("%s-%d", baseName, System.currentTimeMillis())
+                : String.format("image-%d", System.currentTimeMillis());
+        if (StringUtils.hasText(extension)) {
+            safeName += "." + extension.toLowerCase(Locale.ROOT);
+        }
+
+        LocalDate now = LocalDate.now();
+        String year = DateTimeFormatter.ofPattern("yyyy").format(now);
+        String month = DateTimeFormatter.ofPattern("MM").format(now);
+
+        Path uploadDir = Path.of(baseDir, year, month)
+                .toAbsolutePath()
+                .normalize();
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+
+        Path targetPath = uploadDir.resolve(safeName).normalize();
+
+        picture.transferTo(targetPath.toFile());
+
+        String publicUrl = String.join("/",
+                uploadBaseUrl,
+                year,
+                month,
+                safeName);
+
+        return appBaseUrl + publicUrl;
     }
 
     /**
@@ -121,4 +184,5 @@ public class RentalService {
     public Iterable<DBRental> getAllRentals() {
         return rentalRepository.findAll();
     }
+
 }
