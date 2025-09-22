@@ -13,6 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Entity representing a message in a rental conversation
+ * 
+ * @author thorekt
+ */
 @Data
 @Entity
 @Table(name = "messages")
@@ -32,6 +37,23 @@ public class DBMessage {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    /**
+     * Default constructor for JPA
+     */
     public DBMessage() {
     }
+
+    /**
+     * Constructor for creating a new message
+     * 
+     * @param userId
+     * @param rentalId
+     * @param message
+     */
+    public DBMessage(Integer userId, Integer rentalId, String message) {
+        this.userId = userId;
+        this.rentalId = rentalId;
+        this.message = message;
+    }
+
 }

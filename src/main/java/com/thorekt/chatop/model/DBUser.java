@@ -18,6 +18,8 @@ import lombok.Data;
  * User model representing a user in the system.
  * Includes fields for id, email, name, password, createdAt, and updatedAt.
  * Provides getters and setters for each field.
+ * 
+ * @author thorekt
  */
 @Data
 @Entity

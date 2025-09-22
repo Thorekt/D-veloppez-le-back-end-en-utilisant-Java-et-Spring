@@ -14,6 +14,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Entity representing a rental property
+ * 
+ * @author thorekt
+ */
 @Data
 @Entity
 @Table(name = "rentals")
@@ -36,7 +41,26 @@ public class DBRental {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    /**
+     * Default constructor for JPA
+     */
     public DBRental() {
     }
 
+    /**
+     * Constructor for creating a new rental
+     * 
+     * @param name
+     * @param description
+     * @param picture
+     * @param price
+     * @param surface
+     */
+    public DBRental(String name, String description, String picture, BigDecimal price, BigDecimal surface) {
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+        this.price = price;
+        this.surface = surface;
+    }
 }
