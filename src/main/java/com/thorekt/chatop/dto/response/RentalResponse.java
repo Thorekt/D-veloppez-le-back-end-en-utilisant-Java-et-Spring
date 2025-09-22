@@ -3,6 +3,8 @@ package com.thorekt.chatop.dto.response;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thorekt.chatop.model.DBRental;
 
 /**
@@ -28,8 +30,8 @@ public record RentalResponse(
                 BigDecimal price,
                 BigDecimal surface,
                 int ownerId,
-                Timestamp createdAt,
-                Timestamp updatedAt) {
+                @JsonProperty("created_at") @JsonFormat(pattern = "yyyy/MM/dd") Timestamp createdAt,
+                @JsonProperty("updated_at") @JsonFormat(pattern = "yyyy/MM/dd") Timestamp updatedAt) {
 
         /**
          * Convert DBRental to RentalResponse

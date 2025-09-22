@@ -153,7 +153,7 @@ public class RentalService {
                 month,
                 safeName);
 
-        return appBaseUrl + publicUrl;
+        return appBaseUrl + "/api" + publicUrl;
     }
 
     /**
