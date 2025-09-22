@@ -31,7 +31,7 @@ public class MessageController {
     public ResponseEntity<BaseResponse> postMessage(@RequestBody MessageRequest request) {
 
         try {
-            messageService.createMessage(request.message(), request.userId(), request.rentalId());
+            messageService.createMessage(request.message(), request.user_id(), request.rental_id());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(e.getMessage()));
         }

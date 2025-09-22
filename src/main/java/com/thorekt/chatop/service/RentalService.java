@@ -89,21 +89,17 @@ public class RentalService {
             String name,
             String description,
             BigDecimal price,
-            BigDecimal surface,
-            MultipartFile picture) throws Exception {
+            BigDecimal surface) throws Exception {
 
         if (!rentalRepository.existsById(id)) {
             throw new IllegalArgumentException("Rental with id " + id + " does not exist");
         }
-
-        String picturePath = savePicture(picture);
 
         DBRental rental = rentalRepository.findById(id);
         rental.setName(name);
         rental.setDescription(description);
         rental.setPrice(price);
         rental.setSurface(surface);
-        rental.setPicture(picturePath);
 
         rentalRepository.save(rental);
     }

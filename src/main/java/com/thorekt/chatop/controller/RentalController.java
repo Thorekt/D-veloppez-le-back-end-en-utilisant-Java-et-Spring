@@ -81,14 +81,13 @@ public class RentalController {
     @PutMapping("/rentals/{id}")
     public ResponseEntity<BaseResponse> updateRental(
             @PathVariable int id,
-            @RequestPart("name") String name,
-            @RequestPart("description") String description,
-            @RequestPart("price") BigDecimal price,
-            @RequestPart("surface") BigDecimal surface,
-            @RequestPart("picture") MultipartFile picture) {
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("surface") BigDecimal surface) {
 
         try {
-            rentalService.updateRental(id, name, description, price, surface, picture);
+            rentalService.updateRental(id, name, description, price, surface);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(e.getMessage()));
         }
@@ -103,14 +102,15 @@ public class RentalController {
      * @return RentalResponse or 400 if not found
      */
     @GetMapping("/rentals/{id}")
-    public ResponseEntity<RentalResponse> getRentalById(int id) {
+    public ResponseEntity<RentalResponse> getRentalById(
+            @PathVariable int id) {
 
         try {
             DBRental rentalEntity = rentalService.getRentalById(id);
             RentalResponse rental = RentalResponse.fromDBRental(rentalEntity);
             return ResponseEntity.ok(rental);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.notFound().build();
         }
 
     }

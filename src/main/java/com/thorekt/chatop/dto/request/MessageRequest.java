@@ -11,7 +11,7 @@ package com.thorekt.chatop.dto.request;
  */
 public record MessageRequest(
                 String message,
-                int userId,
-                int rentalId) {
+                int user_id,
+                int rental_id) {
 
 }
