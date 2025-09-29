@@ -1,11 +1,9 @@
 package com.thorekt.chatop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thorekt.chatop.dto.response.BaseResponse;
 import com.thorekt.chatop.model.DBMessage;
 import com.thorekt.chatop.repository.DBMessageRepository;
 import com.thorekt.chatop.repository.DBRentalRepository;
